@@ -21,9 +21,11 @@ module.exports = {
       throw err;
     }
   },
-  createUser: async ({ email }) => {
+  createUser: async ({ input }) => {
+    const { email, firstName, lastName, avatar } = input;
+
     try {
-      const user = await User.create({ email });
+      const user = await User.create({ email, firstName, lastName, avatar });
       return user;
     } catch (err) {
       console.log(err);

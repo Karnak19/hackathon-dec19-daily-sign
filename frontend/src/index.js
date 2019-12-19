@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
 
-import "bootswatch/dist/darkly/bootstrap.min.css";
+import "bootswatch/dist/journal/bootstrap.min.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 

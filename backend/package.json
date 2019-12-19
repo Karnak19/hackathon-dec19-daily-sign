@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node index.js && echo \"If you are in dev env, use npm run dev instead\"",
     "dev": "nodemon index.js",
-    "resync": "node sequelize/resync.js"
+    "resync": "node scripts/resync.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,8 @@
     "mysql2": "^2.0.2",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
+    "pg": "^7.15.1",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.3"
   },
   "devDependencies": {

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node index.js && echo \"If you are in dev env, use npm run dev instead\"",
     "dev": "nodemon index.js",
-    "resync": "node sequelize/resync.js"
+    "resync": "node scripts/resync.js"
   },
   "keywords": [],
   "author": "",

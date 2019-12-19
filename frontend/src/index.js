@@ -4,7 +4,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import "./index.scss";
 
-import "bootswatch/dist/darkly/bootstrap.min.css";
+import "bootswatch/dist/journal/bootstrap.min.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 

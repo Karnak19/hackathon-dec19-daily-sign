@@ -13,12 +13,6 @@ module.exports = buildSchema(`
     user: User
   }
 
-  type RootQuery {
-    users: [User!]!
-    user(id: String!): User
-    signs: [Sign!]!
-  }
-
   input UserInput {
     email: String!
     firstName: String
@@ -26,8 +20,15 @@ module.exports = buildSchema(`
     avatar: String
   }
 
+  type RootQuery {
+    users: [User!]!
+    user(id: String!): User
+    signs: [Sign!]!
+    sign(id: String!): Sign
+  }
   type RootMutation {
     createUser(input: UserInput): User
+    createSign(userId: String!): Sign
   }
 
   schema {

@@ -12,5 +12,31 @@ module.exports = {
       console.log(err);
       throw err;
     }
+  },
+  sign: async ({ id }) => {
+    try {
+      const sign = await Sign.findOne({
+        where: {
+          uuid: id
+        },
+        include: [{ model: User }]
+      });
+      return sign;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  },
+
+  createSign: async ({ userId }) => {
+    try {
+      const sign = Sign.create({
+        userUuid: userId
+      });
+      return sign;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   }
 };

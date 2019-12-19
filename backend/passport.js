@@ -23,33 +23,30 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use(
-  new GoogleStrategy(
-    credentials.google,
-    async (accesToken, refreshToken, profile, done) => {
-      let userData = {
-        email: profile.emails[0].value,
-        token: accesToken,
+  new GoogleStrategy(credentials.google, async (accesToken, refreshToken, profile, done) => {
+    let userData = {
+      email: profile.emails[0].value,
+      token: accesToken,
+      firstName: profile.name.givenName,
+      lastName: profile.name.familyName,
+      avatar: profile.photos[0]
+    };
+    console.log(profile);
+    await User.findOrCreate({
+      where: {
+        email: userData.email
+      },
+      defaults: {
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
-        avatar: profile.photos[0]
-      };
-      console.log(profile);
-      await User.findOrCreate({
-        where: {
-          email: userData.email
-        },
-        defaults: {
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          avatar: profile.photos[0].value
-        }
-      });
+        avatar: profile.photos[0].value
+      }
+    });
 
-      userData.jwt = jwt.sign({ email: userData.email }, secret, {
-        expiresIn: "1h"
-      });
+    userData.jwt = jwt.sign({ email: userData.email }, secret, {
+      expiresIn: "1h"
+    });
 
-      done(null, userData);
-    }
-  )
+    done(null, userData);
+  })
 );

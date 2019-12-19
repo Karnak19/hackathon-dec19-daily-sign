@@ -44,7 +44,7 @@ app.get(
 );
 
 async function main() {
-  await sequelize.sync({ force: true });
+  await sequelize.sync();
   try {
     await sequelize.authenticate();
     console.log(success("Connection successful."));

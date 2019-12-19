@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
 const graphqlHttp = require("express-graphql");
+const sequelize = require("./sequelize");
 
 // Console Logging
 const chalk = require("chalk");
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(require("./middlewares/awesomeLogger"));
 
 // GraphQL
-const graphQlSchemas = require("./graphql/schema");
+const graphQlSchemas = require("./graphql/schemas");
 const graphQlResolvers = require("./graphql/resolvers");
 app.use(
   "/graphql",

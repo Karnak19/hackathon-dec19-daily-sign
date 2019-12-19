@@ -5,8 +5,8 @@ const cors = require("cors");
 const PORT = process.env.PORT || 4000;
 const graphqlHttp = require("express-graphql");
 const sequelize = require("./sequelize");
+require("./sequelize/associations");
 const passport = require("passport");
-
 // Console Logging
 const chalk = require("chalk");
 const error = chalk.bold.red;
@@ -30,12 +30,9 @@ app.use(
 );
 
 app.use(passport.initialize());
-
 require("./passport");
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get(
   "/auth/google/callback",
@@ -47,7 +44,7 @@ app.get(
 );
 
 async function main() {
-  await sequelize.sync();
+  await sequelize.sync({ force: true });
   try {
     await sequelize.authenticate();
     console.log(success("Connection successful."));

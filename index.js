@@ -5,6 +5,7 @@ const cors = require("cors");
 const PORT = process.env.PORT || 4000;
 const graphqlHttp = require("express-graphql");
 const sequelize = require("./sequelize");
+const passport = require("passport");
 
 // Console Logging
 const chalk = require("chalk");
@@ -26,6 +27,23 @@ app.use(
     rootValue: graphQlResolvers,
     graphiql: true
   })
+);
+
+app.use(passport.initialize());
+
+require("./passport");
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/", session: false }),
+  (req, res) => {
+    const { jwt } = req.user;
+    res.redirect(`${process.env.FRONT_HOST}/login?token=${jwt}`);
+  }
 );
 
 async function main() {

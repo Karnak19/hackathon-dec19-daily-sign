@@ -5,8 +5,12 @@ import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
 import { Link } from "react-router-dom";
 
-function Header(props) {
+function Header({ isAuth }) {
   const [isOpen, setIsOpen] = useState(false);
+  const routes = [
+    { id: 1, url: "/", label: "Home", requireAuth: false },
+    { id: 2, url: "/sign", label: "Sign", requireAuth: true }
+  ];
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -19,21 +23,17 @@ function Header(props) {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink tag={Link} to="/">
-                Home
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={Link} to="/login">
-                Login
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={Link} to="/sign">
-                Sign
-              </NavLink>
-            </NavItem>
+            {routes
+              .filter(route => isAuth === route.requireAuth || !route.requireAuth)
+              .map(route => {
+                return (
+                  <NavItem>
+                    <NavLink tag={Link} to={route.url}>
+                      {route.label}
+                    </NavLink>
+                  </NavItem>
+                );
+              })}
           </Nav>
         </Collapse>
       </Navbar>

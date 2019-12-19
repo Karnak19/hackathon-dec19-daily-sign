@@ -6,7 +6,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import App from "./App";
 
-import "bootswatch/dist/journal/bootstrap.min.css";
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import "./index.scss";
 
 const client = new ApolloClient({

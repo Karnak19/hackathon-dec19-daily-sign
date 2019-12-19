@@ -14,7 +14,7 @@ function Login() {
       setTooken(token);
     }
   }, []);
-  console.log(token);
+
   return (
     <Container className="mt-3">
       <Row>

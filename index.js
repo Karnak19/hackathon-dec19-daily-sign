@@ -38,8 +38,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/", session: false }),
   (req, res) => {
-    const { jwt } = req.user;
-    res.redirect(`${process.env.FRONT_HOST}/login?token=${jwt}`);
+    const { jwt, id } = req.user;
+    res.redirect(`${process.env.FRONT_HOST}/login?token=${jwt}&id=${id}`);
   }
 );
 

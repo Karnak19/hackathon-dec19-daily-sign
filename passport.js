@@ -31,8 +31,7 @@ passport.use(
       lastName: profile.name.familyName,
       avatar: profile.photos[0]
     };
-    console.log(profile);
-    await User.findOrCreate({
+    let [createdUser, created] = await User.findOrCreate({
       where: {
         email: userData.email
       },
@@ -43,6 +42,9 @@ passport.use(
       }
     });
 
+    console.log(createdUser.dataValues);
+
+    userData.id = createdUser.uuid;
     userData.jwt = jwt.sign({ email: userData.email }, secret, {
       expiresIn: "1h"
     });

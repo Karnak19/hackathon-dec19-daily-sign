@@ -21,8 +21,9 @@ function Header({ isAuth, dispatch }) {
   const [isOpen, setIsOpen] = useState(false);
   const routes = [
     { id: 1, url: "/", label: "Home", requireAuth: false },
-    { id: 2, url: "/sign", label: "Sign", requireAuth: true },
-    { id: 3, url: "/profile", label: "Profile", requireAuth: true }
+    { id: 2, url: "/sign", label: "Signer", requireAuth: true },
+    { id: 3, url: "/recap", label: "Récapitulatif", requireAuth: true },
+    { id: 4, url: "/profile", label: "Profile", requireAuth: true }
   ];
 
   const toggle = () => setIsOpen(!isOpen);
@@ -37,7 +38,9 @@ function Header({ isAuth, dispatch }) {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             {routes
-              .filter(route => isAuth === route.requireAuth || !route.requireAuth)
+              .filter(
+                route => isAuth === route.requireAuth || !route.requireAuth
+              )
               .map(route => {
                 return (
                   <NavItem key={route.id}>

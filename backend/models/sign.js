@@ -9,6 +9,10 @@ const Sign = db.define(
       allowNull: false,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true
+    },
+    signature: {
+      type: Sequelize.STRING,
+      allowNull: false
     }
   },
   {}

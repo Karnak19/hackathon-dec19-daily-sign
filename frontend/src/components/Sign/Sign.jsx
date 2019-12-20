@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import axios from "axios";
@@ -43,6 +43,7 @@ function Sign({ userId }) {
         }
       });
 
+<<<<<<< HEAD
       await addTodo({ variables: { userId: userId, signature: res.data.data.link } });
 
       cb();
@@ -54,6 +55,10 @@ function Sign({ userId }) {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true
+=======
+      await addTodo({
+        variables: { userId: userId, signature: res.data.data.link }
+>>>>>>> implement research signature by date
       });
     } catch (error) {
       console.log(error);

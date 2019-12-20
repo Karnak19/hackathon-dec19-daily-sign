@@ -4,6 +4,7 @@ import { API_URL } from "../../env";
 import queryString from "query-string";
 import { useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
 import { LOGIN } from "../../reducers/reducer";
 
@@ -15,6 +16,14 @@ function Login({ dispatch }) {
   useEffect(() => {
     if (token) {
       dispatch({ type: LOGIN, payload: { token, id } });
+      toast.success("You sign successfully !", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
       history.push("/");
     }
   }, []);

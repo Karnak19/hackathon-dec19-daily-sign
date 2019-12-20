@@ -3,6 +3,7 @@ import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import axios from "axios";
 import styleCanvas from "./sigCanvas.module.scss";
+import { Container, Row, Col, Button } from "reactstrap";
 
 function Sign() {
   const [imageURL, setImageURL] = useState(null);
@@ -11,9 +12,7 @@ function Sign() {
 
   const save = () => {
     const formData = new FormData();
-    const signImage = sigCanvas.current
-      .getTrimmedCanvas()
-      .toDataURL("image/png");
+    const signImage = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
     setImageURL(signImage);
     console.log(signImage);
 
@@ -33,38 +32,38 @@ function Sign() {
   };
 
   return (
-    <div>
-      <h1>Sign</h1>
-      <Popup
-        modal
-        trigger={<button>Open Signature Pad</button>}
-        closeOnDocumentClick={false}
-      >
-        {close => (
-          <>
-            <SignaturePad
-              ref={sigCanvas}
-              canvasProps={{
-                className: styleCanvas.signatureCanvas
+    <Container>
+      <Row>
+        <Col xs={{ size: 6, offset: 3 }}>
+          <h1>Sign</h1>
+          <Popup modal trigger={<Button>Open Signature Pad</Button>} closeOnDocumentClick={false}>
+            {close => (
+              <>
+                <SignaturePad
+                  ref={sigCanvas}
+                  canvasProps={{
+                    className: styleCanvas.signatureCanvas
+                  }}
+                />
+                <Button onClick={save}>save</Button>
+                <Button onClick={clear}>clear</Button>
+                <Button onClick={close}>close</Button>
+              </>
+            )}
+          </Popup>
+          {imageURL ? (
+            <img
+              src={imageURL}
+              alt="signature"
+              style={{
+                display: "block",
+                width: "150px"
               }}
             />
-            <button onClick={save}>save</button>
-            <button onClick={clear}>clear</button>
-            <button onClick={close}>close</button>
-          </>
-        )}
-      </Popup>
-      {imageURL ? (
-        <img
-          src={imageURL}
-          alt="signature"
-          style={{
-            display: "block",
-            width: "150px"
-          }}
-        />
-      ) : null}
-    </div>
+          ) : null}
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

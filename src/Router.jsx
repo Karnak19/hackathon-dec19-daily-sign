@@ -1,12 +1,14 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { connect } from "react-redux";
 
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import Sign from "./components/Sign/Sign";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Profile from "./components/Profile/Profile";
 
-function Router() {
+function Router({ isAuthFromStore }) {
   return (
     <>
       <Header />
@@ -17,8 +19,9 @@ function Router() {
               <CSSTransition key={location.key} timeout={450} classNames="slide">
                 <Switch>
                   <Route exact path="/" component={Login} />
-                  <AuthRoute isAuth={true} path="/login" component={Login} />
-                  <AuthRoute isAuth={true} path="/sign" component={Sign} />
+                  <Route path="/login" component={Login} />
+                  <AuthRoute isAuth={isAuthFromStore} path="/sign" component={Sign} />
+                  <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>
@@ -37,4 +40,10 @@ function AuthRoute({ isAuth, component: Component, ...rest }) {
   );
 }
 
-export default Router;
+const mapStateToProps = state => {
+  return {
+    isAuthFromStore: state.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(Router);

@@ -6,15 +6,18 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Button
 } from "reactstrap";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { LOGOUT } from "../../reducers/reducer";
 
-function Header({ isAuth }) {
+function Header({ isAuth, dispatch }) {
   const [isOpen, setIsOpen] = useState(false);
   const routes = [
     { id: 1, url: "/", label: "Home", requireAuth: false },
@@ -34,9 +37,7 @@ function Header({ isAuth }) {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             {routes
-              .filter(
-                route => isAuth === route.requireAuth || !route.requireAuth
-              )
+              .filter(route => isAuth === route.requireAuth || !route.requireAuth)
               .map(route => {
                 return (
                   <NavItem key={route.id}>
@@ -47,6 +48,24 @@ function Header({ isAuth }) {
                 );
               })}
           </Nav>
+          {isAuth && (
+            <Button
+              color="danger"
+              onClick={() => {
+                dispatch({ type: LOGOUT });
+                toast.error("Logout successfull !", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true
+                });
+              }}
+            >
+              Log Out
+            </Button>
+          )}
         </Collapse>
       </Navbar>
     </div>

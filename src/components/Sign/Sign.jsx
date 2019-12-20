@@ -5,6 +5,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
 
 import { convertBase64StringToFile } from "../../utils";
 
@@ -24,16 +25,13 @@ const ADD_TODO = gql`
 `;
 
 function Sign({ userId }) {
-  const [signUrl, setSignUrl] = useState("");
   const [addTodo, { data, loading, error }] = useMutation(ADD_TODO);
   const sigCanvas = useRef({});
   const clear = () => sigCanvas.current.clear();
 
-  const save = async () => {
+  const save = async cb => {
     const formData = new FormData();
-    const signImage = sigCanvas.current
-      .getTrimmedCanvas()
-      .toDataURL("image/png");
+    const signImage = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
 
     formData.set("image", convertBase64StringToFile(signImage));
     formData.set("type", "file");
@@ -45,8 +43,18 @@ function Sign({ userId }) {
         }
       });
 
-      setSignUrl(res.data.data.link);
-      addTodo({ variables: { userId: userId, signature: signUrl } });
+      await addTodo({ variables: { userId: userId, signature: res.data.data.link } });
+
+      cb();
+
+      toast.success("You sign successfully !", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
     } catch (error) {
       console.log(error);
     }
@@ -59,11 +67,7 @@ function Sign({ userId }) {
 
         <Col xs={{ size: 6, offset: 3 }}>
           <h1>Sign</h1>
-          <Popup
-            modal
-            trigger={<Button>Open Signature Pad</Button>}
-            closeOnDocumentClick={false}
-          >
+          <Popup modal trigger={<Button>Open Signature Pad</Button>} closeOnDocumentClick={false}>
             {close => (
               <>
                 <SignaturePad
@@ -72,9 +76,11 @@ function Sign({ userId }) {
                     className: styleCanvas.signatureCanvas
                   }}
                 />
-                <Button onClick={save}>save</Button>
-                <Button onClick={clear}>clear</Button>
-                <Button onClick={close}>close</Button>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <Button onClick={() => save(close)}>save</Button>
+                  <Button onClick={clear}>clear</Button>
+                  <Button onClick={close}>close</Button>
+                </div>
               </>
             )}
           </Popup>

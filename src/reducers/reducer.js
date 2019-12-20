@@ -4,6 +4,7 @@ const INITIAL_STATE = {
 };
 
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -13,6 +14,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
         isAuth: true,
         userId: action.payload.id
       };
+    case LOGOUT:
+      return INITIAL_STATE;
     default:
       return state;
   }

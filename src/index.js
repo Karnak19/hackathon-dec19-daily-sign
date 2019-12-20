@@ -5,13 +5,17 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { BrowserRouter, Route } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { API_URL } from "./env";
+import { toast } from "react-toastify";
 
 import App from "./App";
+import { API_URL } from "./env";
 import { reducer } from "./reducers/reducer";
+import "./index.scss";
 
 import "bootswatch/dist/darkly/bootstrap.min.css";
-import "./index.scss";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 const store = createStore(
   reducer,

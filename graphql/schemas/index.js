@@ -10,7 +10,7 @@ module.exports = buildSchema(`
   }
   type Sign {
     uuid: String!
-    user: User
+    User: User
   }
 
   input UserInput {

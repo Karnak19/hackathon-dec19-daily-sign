@@ -10,11 +10,11 @@ import { LOGIN } from "../../reducers/reducer";
 function Login({ dispatch }) {
   const location = useLocation();
   const history = useHistory();
-  const { token } = queryString.parse(location.search);
+  const { token, id } = queryString.parse(location.search);
 
   useEffect(() => {
     if (token) {
-      dispatch({ type: LOGIN, payload: token });
+      dispatch({ type: LOGIN, payload: { token, id } });
       history.push("/");
     }
   }, []);

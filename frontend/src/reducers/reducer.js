@@ -9,8 +9,9 @@ export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN:
       return {
-        token: action.payload,
-        isAuth: true
+        token: action.payload.token,
+        isAuth: true,
+        userId: action.payload.id
       };
     default:
       return state;

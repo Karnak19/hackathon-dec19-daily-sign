@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button, Container, Row, Col, Card, CardTitle } from "reactstrap";
 import { API_URL } from "../../env";
 import queryString from "query-string";
 import { useLocation, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
-function Login() {
-  const [tooken, setTooken] = useState("");
+import { LOGIN } from "../../reducers/reducer";
+
+function Login({ dispatch }) {
   const location = useLocation();
+  const history = useHistory();
   const { token } = queryString.parse(location.search);
 
   useEffect(() => {
     if (token) {
-      setTooken(token);
+      dispatch({ type: LOGIN, payload: token });
+      history.push("/");
     }
   }, []);
 
@@ -33,4 +37,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default connect()(Login);

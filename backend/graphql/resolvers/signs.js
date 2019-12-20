@@ -7,6 +7,8 @@ module.exports = {
   signs: async () => {
     try {
       const signs = await Sign.findAll({ include: [{ model: User }] });
+      console.log(signs);
+
       return signs;
     } catch (err) {
       console.log(err);
@@ -31,7 +33,7 @@ module.exports = {
   createSign: async ({ userId }) => {
     try {
       const sign = Sign.create({
-        userUuid: userId
+        UserUuid: userId
       });
       return sign;
     } catch (err) {

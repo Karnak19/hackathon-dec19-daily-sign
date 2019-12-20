@@ -4,6 +4,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } f
 import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 function Header({ isAuth }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,4 +42,10 @@ function Header({ isAuth }) {
   );
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(Header);

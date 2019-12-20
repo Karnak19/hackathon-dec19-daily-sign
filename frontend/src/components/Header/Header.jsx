@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink
+} from "reactstrap";
 
 import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
@@ -26,10 +34,12 @@ function Header({ isAuth }) {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             {routes
-              .filter(route => isAuth === route.requireAuth || !route.requireAuth)
+              .filter(
+                route => isAuth === route.requireAuth || !route.requireAuth
+              )
               .map(route => {
                 return (
-                  <NavItem>
+                  <NavItem key={route.id}>
                     <NavLink tag={Link} to={route.url}>
                       {route.label}
                     </NavLink>

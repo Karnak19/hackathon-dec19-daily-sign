@@ -11,6 +11,8 @@ module.exports = buildSchema(`
   type Sign {
     uuid: String!
     User: User
+    signature: String
+    createdAt: String
   }
 
   input UserInput {
@@ -28,7 +30,7 @@ module.exports = buildSchema(`
   }
   type RootMutation {
     createUser(input: UserInput): User
-    createSign(userId: String!): Sign
+    createSign(userId: String!, signature: String!): Sign
   }
 
   schema {

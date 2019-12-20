@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { BrowserRouter, Route } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { API_URL } from "./env";
 
 import App from "./App";
 import { reducer } from "./reducers/reducer";
@@ -18,7 +19,7 @@ const store = createStore(
 );
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql"
+  uri: API_URL + "/graphql"
 });
 
 ReactDOM.render(

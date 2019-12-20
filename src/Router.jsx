@@ -16,12 +16,24 @@ function Router({ isAuthFromStore }) {
         render={({ location }) => {
           return (
             <TransitionGroup>
-              <CSSTransition key={location.key} timeout={450} classNames="slide">
+              <CSSTransition
+                key={location.key}
+                timeout={450}
+                classNames="slide"
+              >
                 <Switch>
                   <Route exact path="/" component={Login} />
                   <Route path="/login" component={Login} />
-                  <AuthRoute isAuth={isAuthFromStore} path="/sign" component={Sign} />
-                  <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
+                  <AuthRoute
+                    isAuth={isAuthFromStore}
+                    path="/sign"
+                    component={Sign}
+                  />
+                  <AuthRoute
+                    isAuth={isAuthFromStore}
+                    path="/profile"
+                    component={Profile}
+                  />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

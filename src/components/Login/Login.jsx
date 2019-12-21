@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Container, Row, Col, Card, CardTitle } from "reactstrap";
+import { Button, Row, Col, Card, CardTitle } from "reactstrap";
 import { API_URL } from "../../env";
 import queryString from "query-string";
 import { useLocation, useHistory } from "react-router-dom";
@@ -22,20 +22,18 @@ function Login({ dispatch }) {
   }, []);
 
   return (
-    <Container className="mt-3">
-      <Row>
-        <Col sm={{ size: 6, offset: 3 }}>
-          <Card body outline>
-            <CardTitle>
-              <h1>LOGIN</h1>
-            </CardTitle>
-            <Button block href={`${API_URL}/auth/google`} color="danger">
-              Google
-            </Button>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <Row>
+      <Col sm={{ size: 6, offset: 3 }}>
+        <Card body outline>
+          <CardTitle>
+            <h1>LOGIN</h1>
+          </CardTitle>
+          <Button block href={`${API_URL}/auth/google`} color="danger">
+            Google
+          </Button>
+        </Card>
+      </Col>
+    </Row>
   );
 }
 

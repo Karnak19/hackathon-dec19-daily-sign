@@ -1,10 +1,9 @@
+import { LOGIN, LOGOUT } from "./actionTypes";
+
 const INITIAL_STATE = {
   token: "",
   isAuth: false
 };
-
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
 
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {

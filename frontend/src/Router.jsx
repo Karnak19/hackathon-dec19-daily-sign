@@ -7,7 +7,7 @@ import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import Sign from "./components/Sign/Sign";
 import Profile from "./components/Profile/Profile";
-import Recap from "./components/Recap/Recap";
+import WeeklyPlanning from "./components/Week/WeeklyPlanning";
 
 function Router({ isAuthFromStore }) {
   return (
@@ -17,29 +17,13 @@ function Router({ isAuthFromStore }) {
         render={({ location }) => {
           return (
             <TransitionGroup>
-              <CSSTransition
-                key={location.key}
-                timeout={450}
-                classNames="slide"
-              >
+              <CSSTransition key={location.key} timeout={450} classNames="slide">
                 <Switch>
                   <Route exact path="/" component={Login} />
                   <Route path="/login" component={Login} />
-                  <AuthRoute
-                    isAuth={isAuthFromStore}
-                    path="/sign"
-                    component={Sign}
-                  />
-                  <AuthRoute
-                    isAuth={isAuthFromStore}
-                    path="/recap"
-                    component={Recap}
-                  />
-                  <AuthRoute
-                    isAuth={isAuthFromStore}
-                    path="/profile"
-                    component={Profile}
-                  />
+                  <AuthRoute isAuth={isAuthFromStore} path="/sign" component={Sign} />
+                  <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
+                  <AuthRoute isAuth={isAuthFromStore} path="/weekly" component={WeeklyPlanning} />
                 </Switch>
               </CSSTransition>
             </TransitionGroup>

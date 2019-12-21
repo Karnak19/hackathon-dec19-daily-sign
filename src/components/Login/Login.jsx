@@ -18,6 +18,7 @@ function Login({ dispatch }) {
         history.push("/sign");
       }, 200);
     }
+    //eslint-disable-next-line
   }, []);
 
   return (

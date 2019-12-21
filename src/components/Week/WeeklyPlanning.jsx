@@ -1,75 +1,58 @@
 import React from "react";
-import { Container, Row, Col, Table, Spinner } from "reactstrap";
-import { gql } from "apollo-boost";
+import { Container, Row, Col, Table, Spinner, Button } from "reactstrap";
 import { useQuery } from "@apollo/react-hooks";
-import moment from "moment";
-
-const FETCH_USER_WEEKLY = gql`
-  query userWeekly($start: Int!, $end: Int!) {
-    signsUsersWeekly(start: $start, end: $end) {
-      uuid
-      firstName
-      lastName
-      Signs {
-        uuid
-        date
-        signature
-      }
-    }
-  }
-`;
+import { monday, sunday } from "../../utils";
+import { FETCH_USER_WEEKLY } from "../../gql";
 
 function WeeklyPlanning() {
-  const monday = Math.floor(
-    moment()
-      .startOf("week")
-      .toDate()
-      .getTime() / 1000
-  );
-  const sunday = Math.floor(
-    moment()
-      .endOf("week")
-      .toDate()
-      .getTime() / 1000
-  );
-
-  const { data, loading, error } = useQuery(FETCH_USER_WEEKLY, {
+  const { data, loading, refetch } = useQuery(FETCH_USER_WEEKLY, {
     variables: {
       start: monday,
       end: sunday
     }
   });
 
-  if (loading) return <Spinner />;
-
   return (
-    <Container>
+    <Container fluid>
       <Row>
-        <Col>
-          <Table>
-            <tr>
-              <td>Name</td>
-              <td>Monday</td>
-              <td>Tuesday</td>
-              <td>Wednesday</td>
-              <td>Thursday</td>
-              <td>Friday</td>
-            </tr>
-            {data.signsUsersWeekly.map(user => {
-              return (
+        <Col xs={{ size: 2 }}>
+          <Button onClick={() => refetch()}>Refetch</Button>
+        </Col>
+        <Col xs={{ size: 10 }}>
+          {loading && <Spinner />}
+          {data && (
+            <Table striped hover>
+              <thead>
                 <tr>
-                  <td>
-                    {user.firstName} {user.lastName}
-                  </td>
-                  {user.Signs.map(sign => {
-                    return (
-                      <td>Il a signé ! {moment(new Date(sign.date * 1000)).format("dddd")}</td>
-                    );
-                  })}
+                  <td>Name</td>
+                  <td>Monday</td>
+                  <td>Tuesday</td>
+                  <td>Wednesday</td>
+                  <td>Thursday</td>
+                  <td>Friday</td>
                 </tr>
-              );
-            })}
-          </Table>
+              </thead>
+              <tbody>
+                {data.signsUsersWeekly.map(user => {
+                  return (
+                    <tr key={user.uuid}>
+                      <td>
+                        {user.firstName} {user.lastName}
+                      </td>
+                      {user.Signs.sort((a, b) => a.date - b.date).map(sign => {
+                        return (
+                          // <td>Il a signé ! {moment(new Date(sign.date * 1000)).format("dddd")}</td>
+                          <td key={sign.uuid}>
+                            <img src={sign.signature} alt="" width="50" />
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          )}
         </Col>
       </Row>
     </Container>

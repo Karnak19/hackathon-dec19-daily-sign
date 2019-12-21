@@ -1,20 +1,7 @@
 import React from "react";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { Table, Container, Row, Col, Spinner } from "reactstrap";
-
-const GET_STUDENTS = gql`
-  {
-    users {
-      firstName
-      lastName
-      Signs {
-        signature
-        createdAt
-      }
-    }
-  }
-`;
+import { GET_STUDENTS } from "../../gql";
 
 function Recap() {
   const { loading, error, data } = useQuery(GET_STUDENTS);

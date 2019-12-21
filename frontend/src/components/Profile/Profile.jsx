@@ -1,23 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Card, Spinner } from "reactstrap";
 import { connect } from "react-redux";
-import { gql } from "apollo-boost";
+import { GET_USER } from "../../gql";
 import { useQuery } from "@apollo/react-hooks";
 
-const GET_USER = gql`
-  query User($id: String!) {
-    user(id: $id) {
-      uuid
-      email
-      firstName
-      lastName
-      avatar
-    }
-  }
-`;
-
 function Profile({ id }) {
-  const { data, error, loading } = useQuery(GET_USER, {
+  const { data, loading } = useQuery(GET_USER, {
     variables: { id }
   });
 

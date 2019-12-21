@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const convertBase64StringToFile = signImage => {
   const block = signImage.split(";");
   // Get the content type of the image
@@ -31,3 +33,16 @@ const b64toBlob = (b64Data, contentType, sliceSize) => {
 
   return new Blob(byteArrays, { type: contentType });
 };
+
+export const monday = Math.floor(
+  moment()
+    .startOf("week")
+    .toDate()
+    .getTime() / 1000
+);
+export const sunday = Math.floor(
+  moment()
+    .endOf("week")
+    .toDate()
+    .getTime() / 1000
+);

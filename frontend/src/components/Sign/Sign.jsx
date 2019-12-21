@@ -2,29 +2,16 @@ import React, { useRef, useState } from "react";
 import SignaturePad from "react-signature-canvas";
 import axios from "axios";
 import { connect } from "react-redux";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-
-import { convertBase64StringToFile } from "../../utils";
-
-import styleCanvas from "./sigCanvas.module.scss";
 import { Container, Row, Col, Button, Spinner, Modal, ModalBody, ModalFooter } from "reactstrap";
 
-const ADD_TODO = gql`
-  mutation createSign($userId: String!, $signature: String!) {
-    createSign(userId: $userId, signature: $signature) {
-      uuid
-      signature
-      User {
-        email
-      }
-    }
-  }
-`;
+import { convertBase64StringToFile } from "../../utils";
+import { SIGN_USER } from "../../gql";
+import styleCanvas from "./sigCanvas.module.scss";
 
 function Sign({ userId }) {
-  const [addTodo, { loading }] = useMutation(ADD_TODO);
+  const [addTodo, { loading }] = useMutation(SIGN_USER);
   const [isOpen, setIsOpen] = useState(true);
   const sigCanvas = useRef({});
 

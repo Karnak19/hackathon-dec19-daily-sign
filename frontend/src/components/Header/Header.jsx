@@ -16,15 +16,10 @@ import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
 
 import { logOut } from "../../store/actions";
+import { routes } from "../../Router";
 
 function Header({ isAuth, dispatch }) {
   const [isOpen, setIsOpen] = useState(false);
-  const routes = [
-    { id: 1, url: "/", label: "Home", requireAuth: false },
-    { id: 2, url: "/sign", label: "Sign", requireAuth: true },
-    { id: 4, url: "/weekly", label: "Planning", requireAuth: true },
-    { id: 3, url: "/profile", label: "Profile", requireAuth: true }
-  ];
 
   const toggle = () => setIsOpen(!isOpen);
 

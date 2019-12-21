@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-import { Container, Row, Col, Button, Spinner, Modal, ModalBody, ModalFooter } from "reactstrap";
+import { Row, Col, Button, Spinner, Modal, ModalBody, ModalFooter } from "reactstrap";
 
 import { convertBase64StringToFile } from "../../utils";
 import { SIGN_USER } from "../../gql";
@@ -49,32 +49,30 @@ function Sign({ userId }) {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col xs={{ size: 6, offset: 3 }}>
-          <h1>Sign</h1>
-          <Modal isOpen={isOpen} toggle={toggle}>
-            <ModalBody>
-              <SignaturePad
-                ref={sigCanvas}
-                canvasProps={{
-                  className: styleCanvas.signatureCanvas
-                }}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="warning" onClick={clear}>
-                Clear
-              </Button>
-              <Button color="success" disabled={loading} onClick={() => save(toggle)}>
-                {loading && <Spinner size="sm" className="mr-2" />}
-                Save
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </Col>
-      </Row>
-    </Container>
+    <Row>
+      <Col xs={{ size: 6, offset: 3 }}>
+        <h1>Sign</h1>
+        <Modal isOpen={isOpen} toggle={toggle}>
+          <ModalBody>
+            <SignaturePad
+              ref={sigCanvas}
+              canvasProps={{
+                className: styleCanvas.signatureCanvas
+              }}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="warning" onClick={clear}>
+              Clear
+            </Button>
+            <Button color="success" disabled={loading} onClick={() => save(toggle)}>
+              {loading && <Spinner size="sm" className="mr-2" />}
+              Save
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </Col>
+    </Row>
   );
 }
 

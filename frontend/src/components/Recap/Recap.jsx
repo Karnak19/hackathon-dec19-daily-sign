@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { Table, Container, Row, Col, Spinner } from "reactstrap";
+import { Table, Row, Col, Spinner } from "reactstrap";
 import { GET_STUDENTS } from "../../gql";
 
 function Recap() {
@@ -12,38 +12,36 @@ function Recap() {
   console.log(data);
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Table dark>
-            <thead>
+    <Row>
+      <Col>
+        <Table dark>
+          <thead>
+            <tr>
+              <th>Elèves</th>
+              <th>Lundi</th>
+              <th>Mardi</th>
+              <th>Mercredi</th>
+              <th>Jeudi</th>
+              <th>Vendredi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.users.map(user => (
               <tr>
-                <th>Elèves</th>
-                <th>Lundi</th>
-                <th>Mardi</th>
-                <th>Mercredi</th>
-                <th>Jeudi</th>
-                <th>Vendredi</th>
+                <th scope="row">
+                  {user.firstName} {user.lastName}
+                </th>
+                <td>sign</td>
+                <td>sign</td>
+                <td>sign</td>
+                <td>sign</td>
+                <td>sign</td>
               </tr>
-            </thead>
-            <tbody>
-              {data.users.map(user => (
-                <tr>
-                  <th scope="row">
-                    {user.firstName} {user.lastName}
-                  </th>
-                  <td>sign</td>
-                  <td>sign</td>
-                  <td>sign</td>
-                  <td>sign</td>
-                  <td>sign</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </Container>
+            ))}
+          </tbody>
+        </Table>
+      </Col>
+    </Row>
   );
 }
 

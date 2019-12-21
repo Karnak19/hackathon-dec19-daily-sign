@@ -12,13 +12,19 @@ import WeeklyPlanning from "./components/Week/WeeklyPlanning";
 import Home from "./components/Home/Home";
 
 export const routes = [
-  { id: 1, url: "/", label: "Home", requireAuth: false },
-  { id: 2, url: "/sign", label: "Sign", requireAuth: true },
-  { id: 4, url: "/weekly", label: "Planning", requireAuth: true },
-  { id: 3, url: "/profile", label: "Profile", requireAuth: true }
+  { id: 2, url: "/sign", label: "Sign", requireAuth: true, component: Sign },
+  { id: 4, url: "/weekly", label: "Planning", requireAuth: true, component: WeeklyPlanning },
+  { id: 3, url: "/profile", label: "Profile", requireAuth: true, component: Profile }
 ];
 
 function Router({ isAuthFromStore }) {
+  const componentRoute = routes.map(({ id, url, requireAuth, component }) => {
+    return !requireAuth ? (
+      <Route exact={url === "/" && true} path={url} key={id} />
+    ) : (
+      <AuthRoute isAuth={isAuthFromStore} path={url} component={component} key={id} />
+    );
+  });
   return (
     <>
       <Header />
@@ -31,9 +37,11 @@ function Router({ isAuthFromStore }) {
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/login" component={Login} />
+                    {componentRoute}
+                    {/* 
                     <AuthRoute isAuth={isAuthFromStore} path="/sign" component={Sign} />
                     <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
-                    <AuthRoute isAuth={isAuthFromStore} path="/weekly" component={WeeklyPlanning} />
+                    <AuthRoute isAuth={isAuthFromStore} path="/weekly" component={WeeklyPlanning} /> */}
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

@@ -10,7 +10,7 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
@@ -20,12 +20,13 @@ import { routes } from "../../Router";
 
 function Header({ isAuth, dispatch }) {
   const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <Navbar color="primary" expand="md">
-      <NavbarBrand href="/">
+      <NavbarBrand onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
         <img className={style.logo} src={logo} alt="wcs"></img>
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />

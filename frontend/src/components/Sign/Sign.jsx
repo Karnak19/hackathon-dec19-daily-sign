@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import Popup from "reactjs-popup";
+import React, { useRef, useState } from "react";
 import SignaturePad from "react-signature-canvas";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -10,7 +9,7 @@ import { toast } from "react-toastify";
 import { convertBase64StringToFile } from "../../utils";
 
 import styleCanvas from "./sigCanvas.module.scss";
-import { Container, Row, Col, Button, Spinner } from "reactstrap";
+import { Container, Row, Col, Button, Spinner, Modal, ModalBody, ModalFooter } from "reactstrap";
 
 const ADD_TODO = gql`
   mutation createSign($userId: String!, $signature: String!) {
@@ -25,10 +24,12 @@ const ADD_TODO = gql`
 `;
 
 function Sign({ userId }) {
-  const [addTodo, { data, loading, error }] = useMutation(ADD_TODO);
+  const [addTodo, { loading }] = useMutation(ADD_TODO);
+  const [isOpen, setIsOpen] = useState(true);
   const sigCanvas = useRef({});
-  const clear = () => sigCanvas.current.clear();
 
+  const toggle = () => setIsOpen(!isOpen);
+  const clear = () => sigCanvas.current.clear();
   const save = async cb => {
     const formData = new FormData();
     const signImage = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
@@ -63,27 +64,27 @@ function Sign({ userId }) {
   return (
     <Container>
       <Row>
-        {loading && <Spinner />}
-
         <Col xs={{ size: 6, offset: 3 }}>
           <h1>Sign</h1>
-          <Popup modal trigger={<Button>Open Signature Pad</Button>} closeOnDocumentClick={false}>
-            {close => (
-              <>
-                <SignaturePad
-                  ref={sigCanvas}
-                  canvasProps={{
-                    className: styleCanvas.signatureCanvas
-                  }}
-                />
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <Button onClick={() => save(close)}>save</Button>
-                  <Button onClick={clear}>clear</Button>
-                  <Button onClick={close}>close</Button>
-                </div>
-              </>
-            )}
-          </Popup>
+          <Modal isOpen={isOpen} toggle={toggle}>
+            <ModalBody>
+              <SignaturePad
+                ref={sigCanvas}
+                canvasProps={{
+                  className: styleCanvas.signatureCanvas
+                }}
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="warning" onClick={clear}>
+                Clear
+              </Button>
+              <Button color="success" disabled={loading} onClick={() => save(toggle)}>
+                {loading && <Spinner size="sm" className="mr-2" />}
+                Save
+              </Button>
+            </ModalFooter>
+          </Modal>
         </Col>
       </Row>
     </Container>

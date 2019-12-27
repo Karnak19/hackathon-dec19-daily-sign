@@ -32,7 +32,10 @@ app.use(
 app.use(passport.initialize());
 require("./passport");
 
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 app.get(
   "/auth/google/callback",
@@ -44,21 +47,23 @@ app.get(
 );
 
 async function main() {
-  await sequelize.sync();
   try {
-    await sequelize.authenticate();
-    console.log(success("Connection successful."));
-    app.listen(PORT, err => {
-      if (err) {
-        throw new Error(error("Something bad happened ..."));
-      }
-      console.log(success(`Listening to ${PORT}.`));
-    });
+    const main = await Promise.all([
+      sequelize.sync(),
+      sequelize.authenticate()
+    ]);
+
+    return main;
   } catch (err) {
-    console.error(error("Unable to reach database: "), err);
+    throw new Error(err);
   }
 }
 
 if (process.env.NODE_ENV !== "test") {
-  main();
+  main()
+    .then(() => {
+      app.listen(PORT);
+      console.log(success("Connection successful.", `Listening to ${PORT}.`));
+    })
+    .catch(err => console.error(error("Unable to reach database: "), err));
 }

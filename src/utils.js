@@ -34,15 +34,15 @@ const b64toBlob = (b64Data, contentType, sliceSize) => {
   return new Blob(byteArrays, { type: contentType });
 };
 
-export const monday = Math.floor(
-  moment()
-    .startOf("week")
-    .toDate()
-    .getTime() / 1000
-);
-export const sunday = Math.floor(
-  moment()
-    .endOf("week")
-    .toDate()
-    .getTime() / 1000
-);
+export const monday = moment()
+  .startOf("week")
+  .dayOfYear();
+
+export const sunday = moment()
+  .endOf("week")
+  .dayOfYear();
+
+export const retrieveDate = dateIntFromAPI => {
+  const year = moment().format("YYYY");
+  return new Date(year, 0, dateIntFromAPI);
+};

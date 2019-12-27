@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const moment = require("moment");
 const db = require("../sequelize");
 
 const Sign = db.define(
@@ -22,7 +23,7 @@ const Sign = db.define(
   {
     hooks: {
       beforeCreate: record => {
-        record.dataValues.date = Math.floor(Date.now() / 1000);
+        record.dataValues.date = moment().dayOfYear(); // new Date(moment().format("YYYY"), 0, day); to retrieve the real format
       }
     }
   }

@@ -26,11 +26,8 @@ module.exports = {
   createSign: async ({ userId, signature }) => {
     try {
       const [sign, created] = await Sign.findOrCreate({
-        where: {
-          date: moment().dayOfYear()
-        },
+        where: { UserUuid: userId, date: moment().dayOfYear() },
         defaults: {
-          UserUuid: userId,
           signature: signature
         }
       });

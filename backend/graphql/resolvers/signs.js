@@ -7,8 +7,6 @@ module.exports = {
   signs: async () => {
     try {
       const signs = await Sign.findAll({ include: [{ model: User }] });
-      console.log(signs);
-
       return signs;
     } catch (err) {
       console.log(err);
@@ -17,12 +15,7 @@ module.exports = {
   },
   sign: async ({ id }) => {
     try {
-      const sign = await Sign.findOne({
-        where: {
-          uuid: id
-        },
-        include: [{ model: User }]
-      });
+      const sign = await Sign.findByPk(id, { include: [{ model: User }] });
       return sign;
     } catch (err) {
       console.log(err);
@@ -35,14 +28,7 @@ module.exports = {
         UserUuid: userId,
         signature: signature
       });
-
-      const sign = await Sign.findOne({
-        where: {
-          uuid
-        },
-        include: [{ model: User }]
-      });
-
+      const sign = await Sign.findByPk(uuid, { include: [{ model: User }] });
       return sign;
     } catch (err) {
       console.log(err);

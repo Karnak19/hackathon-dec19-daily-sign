@@ -18,7 +18,7 @@ module.exports = {
   },
   user: async ({ id }) => {
     try {
-      const user = await User.findOne({ where: { uuid: id } });
+      const user = await User.findByPk(id);
       return user;
     } catch (err) {
       console.log(err);
@@ -26,10 +26,8 @@ module.exports = {
     }
   },
   createUser: async ({ input }) => {
-    const { email, firstName, lastName, avatar } = input;
-
     try {
-      const user = await User.create({ email, firstName, lastName, avatar });
+      const user = await User.create({ ...input });
       return user;
     } catch (err) {
       console.log(err);

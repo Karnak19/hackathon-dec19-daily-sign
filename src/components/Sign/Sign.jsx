@@ -4,7 +4,15 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
-import { Row, Col, Button, Spinner, Modal, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Spinner,
+  Modal,
+  ModalBody,
+  ModalFooter
+} from "reactstrap";
 
 import { convertBase64StringToFile } from "../../utils";
 import { SIGN_USER } from "../../gql";
@@ -12,14 +20,18 @@ import styleCanvas from "./sigCanvas.module.scss";
 
 function Sign({ userId }) {
   const [addTodo, { loading }] = useMutation(SIGN_USER);
+  const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const sigCanvas = useRef({});
 
   const toggle = () => setIsOpen(!isOpen);
   const clear = () => sigCanvas.current.clear();
   const save = async cb => {
+    setIsLoading(true);
     const formData = new FormData();
-    const signImage = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
+    const signImage = sigCanvas.current
+      .getTrimmedCanvas()
+      .toDataURL("image/png");
 
     formData.set("image", convertBase64StringToFile(signImage));
     formData.set("type", "file");
@@ -31,7 +43,9 @@ function Sign({ userId }) {
         }
       });
 
-      await addTodo({ variables: { userId: userId, signature: res.data.data.link } });
+      await addTodo({
+        variables: { userId: userId, signature: res.data.data.link }
+      });
 
       cb();
 
@@ -65,8 +79,12 @@ function Sign({ userId }) {
             <Button color="warning" onClick={clear}>
               Clear
             </Button>
-            <Button color="success" disabled={loading} onClick={() => save(toggle)}>
-              {loading && <Spinner size="sm" className="mr-2" />}
+            <Button
+              color="success"
+              disabled={isLoading}
+              onClick={() => save(toggle)}
+            >
+              {isLoading && <Spinner size="sm" className="mr-2" />}
               Save
             </Button>
           </ModalFooter>

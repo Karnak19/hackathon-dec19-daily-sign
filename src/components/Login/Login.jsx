@@ -22,16 +22,11 @@ function Login({ dispatch }) {
   }, []);
 
   return (
-    <Row>
+    <Row style={{ height: "50vh" }} className="align-items-center">
       <Col sm={{ size: 6, offset: 3 }}>
-        <Card body outline>
-          <CardTitle>
-            <h1>LOGIN</h1>
-          </CardTitle>
-          <Button block href={`${API_URL}/auth/google`} color="danger">
-            Google
-          </Button>
-        </Card>
+        <Button block href={`${API_URL}/auth/google`} color="danger">
+          Login with Google
+        </Button>
       </Col>
     </Row>
   );

@@ -48,7 +48,11 @@ module.exports = {
           }
         ]
       });
-      return users;
+      const sortedUsers = users.map(user => {
+        user.Signs.sort((a, b) => a.date - b.date);
+        return user;
+      });
+      return sortedUsers;
     } catch (err) {
       console.log(err);
       throw err;

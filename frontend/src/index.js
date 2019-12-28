@@ -11,7 +11,7 @@ import { API_URL } from "./env";
 import { store } from "./store/store";
 import "./index.scss";
 
-import "bootswatch/dist/flatly/bootstrap.min.css";
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
 toast.configure();

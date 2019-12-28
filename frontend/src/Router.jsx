@@ -13,8 +13,20 @@ import Home from "./components/Home/Home";
 
 export const routes = [
   { id: 2, url: "/sign", label: "Sign", requireAuth: true, component: Sign },
-  { id: 4, url: "/weekly", label: "Planning", requireAuth: true, component: WeeklyPlanning },
-  { id: 3, url: "/profile", label: "Profile", requireAuth: true, component: Profile }
+  {
+    id: 4,
+    url: "/weekly",
+    label: "Planning",
+    requireAuth: true,
+    component: WeeklyPlanning
+  },
+  {
+    id: 3,
+    url: "/profile",
+    label: "Profile",
+    requireAuth: true,
+    component: Profile
+  }
 ];
 
 function Router({ isAuthFromStore }) {
@@ -22,18 +34,28 @@ function Router({ isAuthFromStore }) {
     return !requireAuth ? (
       <Route exact={url === "/" && true} path={url} key={id} />
     ) : (
-      <AuthRoute isAuth={isAuthFromStore} path={url} component={component} key={id} />
+      <AuthRoute
+        isAuth={isAuthFromStore}
+        path={url}
+        component={component}
+        key={id}
+      />
     );
   });
   return (
     <>
       <Header />
-      <Container className="mt-5">
-        <Route
-          render={({ location }) => {
-            return (
-              <TransitionGroup>
-                <CSSTransition key={location.key} timeout={450} classNames="slide">
+
+      <Route
+        render={({ location }) => {
+          return (
+            <TransitionGroup>
+              <CSSTransition
+                key={location.key}
+                timeout={450}
+                classNames="slide"
+              >
+                <Container className="mt-5">
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/login" component={Login} />
@@ -43,12 +65,12 @@ function Router({ isAuthFromStore }) {
                     <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
                     <AuthRoute isAuth={isAuthFromStore} path="/weekly" component={WeeklyPlanning} /> */}
                   </Switch>
-                </CSSTransition>
-              </TransitionGroup>
-            );
-          }}
-        />
-      </Container>
+                </Container>
+              </CSSTransition>
+            </TransitionGroup>
+          );
+        }}
+      />
     </>
   );
 }

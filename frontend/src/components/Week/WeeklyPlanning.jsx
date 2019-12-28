@@ -3,12 +3,13 @@ import { Row, Col, Table, Spinner, Button } from "reactstrap";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
-import { monday, sunday, retrieveDate } from "../../utils";
+import { monday, sunday } from "../../utils";
 import { FETCH_USER_WEEKLY } from "../../gql";
 
 function WeeklyPlanning() {
   const [dates, setDates] = useState([]);
   const [users, setUsers] = useState([]);
+  const [today] = useState(moment().dayOfYear());
   const { data, loading, refetch } = useQuery(FETCH_USER_WEEKLY, {
     variables: {
       start: monday,
@@ -18,7 +19,7 @@ function WeeklyPlanning() {
 
   useEffect(() => {
     const x = [];
-    for (let i = 1; i < 8; i++) {
+    for (let i = 1; i < 6; i++) {
       x[i - 1] = {
         date: moment()
           .day(i)
@@ -31,6 +32,7 @@ function WeeklyPlanning() {
     setDates(x);
   }, []);
 
+  // TODO: Find why it doesn't works on every page changes except the first
   useEffect(() => {
     if (data) {
       const finalUsers = data.signsUsersWeekly.map(user => {
@@ -62,20 +64,21 @@ function WeeklyPlanning() {
 
   return (
     <Row>
-      <Col xs={{ size: 12 }}>
-        <Button onClick={() => refetch()}>Refetch</Button>
+      <Col xs={{ size: 12 }} className="mb-5">
+        <Button block onClick={() => refetch()} color="info">
+          Refetch
+        </Button>
       </Col>
       <Col xs={{ size: 12 }}>
         {loading && <Spinner />}
         {users && (
-          <Table striped hover>
+          <Table striped hover bordered size="sm">
             <thead>
               <tr>
                 <td>Name</td>
                 {dates.map(({ date, day }) => {
                   return (
-                    // <td key={day}>{moment(date).format("dddd Do MMMM")}</td>
-                    <td key={day}>{day}</td>
+                    <td key={day}>{moment(date).format("dddd Do MMMM")}</td>
                   );
                 })}
               </tr>
@@ -84,19 +87,26 @@ function WeeklyPlanning() {
               {users.map(user => {
                 return (
                   <tr key={user.uuid}>
-                    <td>
+                    <td className="bg-info">
                       {user.firstName} {user.lastName}
                     </td>
+
                     {Object.entries(user.days).map(([key, value]) => {
                       if (value) {
-                        const { uuid, date, signature } = value;
+                        const { uuid, signature } = value;
                         return (
                           <td key={uuid} className="bg-success">
                             <img src={signature} alt="" width="50" />
                           </td>
                         );
                       } else {
-                        return <td className="bg-warning">absent</td>;
+                        return (
+                          <td
+                            className={key < today ? "bg-danger" : "bg-warning"}
+                          >
+                            {key < today ? "Absent" : "Doit signer"}
+                          </td>
+                        );
                       }
                     })}
                   </tr>

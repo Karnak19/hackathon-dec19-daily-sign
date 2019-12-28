@@ -7,11 +7,11 @@ import { routes } from "../../Router";
 function Home({ isAuth }) {
   if (!isAuth) return <Redirect to="/login" />;
   return (
-    <Row className="mt-5">
+    <Row style={{ height: "50vh" }} className="align-items-center">
       <Col xs={{ size: 8, offset: 2 }}>
         {routes.map(route => {
           return (
-            <Button color="primary" block tag={Link} to={route.url}>
+            <Button color="info" block tag={Link} to={route.url}>
               {route.label}
             </Button>
           );

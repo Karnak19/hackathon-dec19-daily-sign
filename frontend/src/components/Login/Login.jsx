@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Row, Col, Card, CardTitle } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 import { API_URL } from "../../env";
 import queryString from "query-string";
 import { useLocation, useHistory } from "react-router-dom";

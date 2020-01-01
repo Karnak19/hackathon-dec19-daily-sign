@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Spinner } from "reactstrap";
 import { useQuery } from "@apollo/react-hooks";
+
 import { GET_USERS } from "../../gql";
 import UserCard from "./UserCard";
 

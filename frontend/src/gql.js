@@ -1,5 +1,27 @@
 import { gql } from "apollo-boost";
 
+export const GET_USERS = gql`
+  {
+    users {
+      uuid
+      firstName
+      lastName
+      avatar
+      Signs {
+        date
+      }
+    }
+  }
+`;
+
+export const GET_AVATAR = gql`
+  query User($id: String!) {
+    user(id: $id) {
+      avatar
+    }
+  }
+`;
+
 export const GET_USER = gql`
   query User($id: String!) {
     user(id: $id) {

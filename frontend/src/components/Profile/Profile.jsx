@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Spinner } from "reactstrap";
+import { Row, Col, Card, Spinner, CardImg } from "reactstrap";
 import { connect } from "react-redux";
 import { GET_USER } from "../../gql";
 import { useQuery } from "@apollo/react-hooks";
@@ -11,13 +11,13 @@ function Profile({ id }) {
 
   return (
     <Row>
-      <Col xs={{ size: 8, offset: 2 }}>
+      <Col xs={{ size: 6, offset: 3 }}>
         {loading ? (
           <Spinner />
         ) : (
           data && (
             <Card>
-              <img src={data.user.avatar} alt="" />
+              <CardImg src={data.user.avatar} alt="" />
               <h1>
                 {data.user.firstName} {data.user.lastName}
               </h1>

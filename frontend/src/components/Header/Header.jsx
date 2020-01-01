@@ -17,15 +17,19 @@ import style from "./header.module.scss";
 
 import { logOut } from "../../store/actions";
 import { routes } from "../../Router";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_AVATAR } from "../../gql";
 
-function Header({ isAuth, dispatch }) {
+function Header({ isAuth, dispatch, uuid = "" }) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
+  const { data, loading } = useQuery(GET_AVATAR, { variables: { id: uuid } });
 
   const toggle = () => setIsOpen(!isOpen);
 
+  console.log(data);
   return (
-    <Navbar color="primary" expand="md">
+    <Navbar color="primary" light expand="md">
       <NavbarBrand onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
         <img className={style.logo} src={logo} alt="wcs"></img>
       </NavbarBrand>
@@ -49,6 +53,9 @@ function Header({ isAuth, dispatch }) {
             Log Out
           </Button>
         )}
+        {data && data.user && data.user.avatar && (
+          <img src={data.user.avatar} style={{ borderRadius: "50%", height: "50px" }} className="ml-3" alt="" />
+        )}
       </Collapse>
     </Navbar>
   );
@@ -56,7 +63,8 @@ function Header({ isAuth, dispatch }) {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.isAuth
+    isAuth: state.isAuth,
+    uuid: state.userId
   };
 };
 

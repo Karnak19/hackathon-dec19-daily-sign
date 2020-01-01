@@ -10,22 +10,30 @@ import Sign from "./components/Sign/Sign";
 import Profile from "./components/Profile/Profile";
 import WeeklyPlanning from "./components/Week/WeeklyPlanning";
 import Home from "./components/Home/Home";
+import Users from "./components/Users/Users";
 
 export const routes = [
   { id: 2, url: "/sign", label: "Sign", requireAuth: true, component: Sign },
   {
-    id: 4,
+    id: 3,
     url: "/weekly",
     label: "Planning",
     requireAuth: true,
     component: WeeklyPlanning
   },
   {
-    id: 3,
+    id: 4,
     url: "/profile",
     label: "Profile",
     requireAuth: true,
     component: Profile
+  },
+  {
+    id: 5,
+    url: "/users",
+    label: "Users",
+    requireAuth: true,
+    component: Users
   }
 ];
 
@@ -34,12 +42,7 @@ function Router({ isAuthFromStore }) {
     return !requireAuth ? (
       <Route exact={url === "/" && true} path={url} key={id} />
     ) : (
-      <AuthRoute
-        isAuth={isAuthFromStore}
-        path={url}
-        component={component}
-        key={id}
-      />
+      <AuthRoute isAuth={isAuthFromStore} path={url} component={component} key={id} />
     );
   });
   return (
@@ -50,11 +53,7 @@ function Router({ isAuthFromStore }) {
         render={({ location }) => {
           return (
             <TransitionGroup>
-              <CSSTransition
-                key={location.key}
-                timeout={450}
-                classNames="slide"
-              >
+              <CSSTransition key={location.key} timeout={450} classNames="slide">
                 <Container className="mt-5">
                   <Switch>
                     <Route exact path="/" component={Home} />

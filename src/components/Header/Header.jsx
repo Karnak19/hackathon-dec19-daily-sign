@@ -23,7 +23,7 @@ import { GET_AVATAR } from "../../gql";
 function Header({ isAuth, dispatch, uuid = "" }) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
-  const { data, loading } = useQuery(GET_AVATAR, { variables: { id: uuid } });
+  const { data } = useQuery(GET_AVATAR, { variables: { id: uuid } });
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -54,7 +54,12 @@ function Header({ isAuth, dispatch, uuid = "" }) {
           </Button>
         )}
         {data && data.user && data.user.avatar && (
-          <img src={data.user.avatar} style={{ borderRadius: "50%", height: "50px" }} className="ml-3" alt="" />
+          <img
+            src={data.user.avatar}
+            style={{ borderRadius: "50%", height: "50px" }}
+            className="ml-3"
+            alt=""
+          />
         )}
       </Collapse>
     </Navbar>

@@ -9,9 +9,24 @@ function UsersTable({ dates, users }) {
     <Table striped hover bordered size="sm">
       <thead>
         <tr>
-          <td>Name</td>
+          <td rowSpan={2}>Name</td>
           {dates.map(({ date, day }) => {
-            return <td key={day}>{moment(date).format("dddd Do MMMM")}</td>;
+            return (
+              <td colSpan={2} key={day}>
+                {moment(date).format("dddd Do MMMM")}
+              </td>
+            );
+          })}
+        </tr>
+        <tr>
+          {/* <td></td> */}
+          {dates.map(() => {
+            return (
+              <>
+                <td>Morning</td>
+                <td>Afternoom</td>
+              </>
+            );
           })}
         </tr>
       </thead>

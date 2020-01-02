@@ -31,7 +31,6 @@ function WeeklyPlanning() {
         )
       };
     }
-    console.log(dateArray);
     setDates(dateArray);
     // eslint-disable-next-line
   }, []);
@@ -56,11 +55,19 @@ function WeeklyPlanning() {
           // Going through all signs for an user
           for (let j = 0; j < user.Signs.length; j++) {
             if (user.Signs[j].date === dates[i].day) {
-              finalObject.days[dates[i].day] = user.Signs[j]; // If it match, we add a new key with the sign object
+              if (!finalObject.days.hasOwnProperty(dates[i].day)) {
+                finalObject.days[dates[i].day] = {};
+              }
+              if (user.Signs[j].morningOrAfternoon === "morning") {
+                finalObject.days[dates[i].day].morning = user.Signs[j]; // If it match, we add a new key with the sign object
+              }
+              if (user.Signs[j].morningOrAfternoon === "afternoon") {
+                finalObject.days[dates[i].day].afternoon = user.Signs[j]; // If it match, we add a new key with the sign object
+              }
             } else {
               // If it don't match, we check if the key already exist, if not, we create it with with a null value
               if (!finalObject.days.hasOwnProperty(dates[i].day)) {
-                finalObject.days[dates[i].day] = null;
+                finalObject.days[dates[i].day] = {};
               }
             }
           }

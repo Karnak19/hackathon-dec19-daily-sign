@@ -56,6 +56,7 @@ export const FETCH_USER_WEEKLY = gql`
       Signs {
         uuid
         date
+        morningOrAfternoon
         signature
       }
     }

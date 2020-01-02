@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const moment = require("moment");
 
+const { pad } = require("../../utils");
 const Sign = require("../../models/sign");
 const User = require("../../models/user");
 
@@ -26,7 +27,7 @@ module.exports = {
   createSign: async ({ userId, signature }) => {
     try {
       const [sign, created] = await Sign.findOrCreate({
-        where: { UserUuid: userId, date: moment().dayOfYear() },
+        where: { UserUuid: userId, date: `${moment().year()}${pad(moment().dayOfYear())}` },
         defaults: {
           signature: signature
         }

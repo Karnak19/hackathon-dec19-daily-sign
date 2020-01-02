@@ -27,7 +27,6 @@ function Header({ isAuth, dispatch, uuid = "" }) {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log(data);
   return (
     <Navbar color="primary" light expand="md">
       <NavbarBrand onClick={() => history.push("/")} style={{ cursor: "pointer" }}>

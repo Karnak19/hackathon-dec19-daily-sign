@@ -3,14 +3,16 @@ import React from "react";
 import Td from "./Td";
 
 function Tr({ uuid, firstName, lastName, days }) {
+  console.log(days);
+
   return (
     <tr key={uuid}>
       <td className="bg-info">
         {firstName} {lastName}
       </td>
 
-      {Object.entries(days).map(([key, value]) => {
-        return <Td key={key} value={value} />;
+      {Object.entries(days).map(([key, value], i) => {
+        return <Td key={i} data={[key, value]} />;
       })}
     </tr>
   );

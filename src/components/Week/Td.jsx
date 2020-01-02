@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import moment from "moment";
+import React from "react";
+import { today } from "../../utils";
 
-function Td({ key, value }) {
-  const [today] = useState(moment().dayOfYear());
-
+function Td({ data: [key, value] }) {
   if (value) {
     const { uuid, signature } = value;
     return (
@@ -12,9 +10,11 @@ function Td({ key, value }) {
       </td>
     );
   } else {
+    // console.log(`Key ${key}`, `Today: ${today()}`);
+
     return (
-      <td className={key < today ? "bg-danger" : "bg-warning"}>
-        {key < today ? "Absent" : "Doit signer"}
+      <td className={key < today() ? "bg-danger" : "bg-warning"}>
+        {key < today() ? "Absent" : "Doit signer"}
       </td>
     );
   }

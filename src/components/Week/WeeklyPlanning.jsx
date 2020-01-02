@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Spinner, Button } from "reactstrap";
-import { useQuery } from "@apollo/react-hooks";
+import { Row, Col, Spinner } from "reactstrap";
+import { useLazyQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
-import { monday, sunday } from "../../utils";
+import { monday, sunday, pad } from "../../utils";
 import { FETCH_USER_WEEKLY } from "../../gql";
 import UsersTable from "./UsersTable";
 
 function WeeklyPlanning() {
   const [dates, setDates] = useState([]);
   const [users, setUsers] = useState([]); // We manipulate datas from GraphQL query and store them here
-  const { data, loading, refetch } = useQuery(FETCH_USER_WEEKLY, {
-    variables: {
-      start: monday,
-      end: sunday
-    }
-  });
+  const [getUsers, { data, loading }] = useLazyQuery(FETCH_USER_WEEKLY);
 
   useEffect(() => {
     const dateArray = [];
@@ -24,17 +19,31 @@ function WeeklyPlanning() {
         date: moment()
           .day(i)
           .toDate(),
-        day: moment()
-          .day(i)
-          .dayOfYear()
+        day: parseInt(
+          `${moment()
+            .day(i)
+            .year()}${pad(
+            moment()
+              .day(i)
+              .dayOfYear()
+          )}`,
+          10
+        )
       };
     }
+    console.log(dateArray);
     setDates(dateArray);
     // eslint-disable-next-line
   }, []);
 
   // TODO: Find why it doesn't works on every page changes except the first
   useEffect(() => {
+    getUsers({
+      variables: {
+        start: monday,
+        end: sunday
+      }
+    });
     if (data) {
       const finalUsers = data.signsUsersWeekly.map(user => {
         let finalObject = {
@@ -66,11 +75,6 @@ function WeeklyPlanning() {
 
   return (
     <Row>
-      <Col xs={{ size: 12 }} className="mb-5">
-        <Button block onClick={() => refetch()} color="info">
-          Refetch
-        </Button>
-      </Col>
       <Col xs={{ size: 12 }}>
         {loading && <Spinner />}
         {users && <UsersTable dates={dates} users={users} />}

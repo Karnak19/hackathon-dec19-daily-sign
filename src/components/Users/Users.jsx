@@ -6,7 +6,7 @@ import { GET_USERS } from "../../gql";
 import UserCard from "./UserCard";
 
 function Users() {
-  const { data, loading } = useQuery(GET_USERS);
+  const { data, loading } = useQuery(GET_USERS, { pollInterval: 2000 });
   return (
     <Row>
       {loading ? (

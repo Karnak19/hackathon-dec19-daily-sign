@@ -34,13 +34,42 @@ const b64toBlob = (b64Data, contentType, sliceSize) => {
   return new Blob(byteArrays, { type: contentType });
 };
 
-export const monday = moment()
-  .startOf("week")
-  .dayOfYear();
+export const pad = (num, size) => {
+  let s = String(num);
+  if (s.length === 3) {
+    return s;
+  }
+  while (s.length < (size || 3)) {
+    s = "0" + s;
+  }
+  return s;
+};
 
-export const sunday = moment()
-  .endOf("week")
-  .dayOfYear();
+export const monday = parseInt(
+  `${moment()
+    .startOf("week")
+    .year()}${pad(
+    moment()
+      .startOf("week")
+      .dayOfYear()
+  )}`,
+  10
+);
+
+export const sunday = parseInt(
+  `${moment()
+    .endOf("week")
+    .year()}${pad(
+    moment()
+      .endOf("week")
+      .dayOfYear()
+  )}`,
+  10
+);
+
+export const today = () => {
+  return parseInt(`${moment().year()}${pad(moment().dayOfYear())}`, 10);
+};
 
 export const retrieveDate = dateIntFromAPI => {
   const year = moment().format("YYYY");

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const moment = require("moment");
 
-const { pad } = require("../utils");
+const { pad, morningOrAfternoon } = require("../utils");
 const db = require("../sequelize");
 
 const Sign = db.define(
@@ -20,11 +20,19 @@ const Sign = db.define(
     date: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    morningOrAfternoon: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      validate: {
+        isIn: [["morning", "afternoon"]]
+      }
     }
   },
   {
     hooks: {
       beforeCreate: record => {
+        record.dataValues.morningOrAfternoon = morningOrAfternoon();
         record.dataValues.date = parseInt(`${moment().year()}${pad(moment().dayOfYear())}`, 10); // new Date(moment().format("YYYY"), 0, day); to retrieve the real format
       }
     }

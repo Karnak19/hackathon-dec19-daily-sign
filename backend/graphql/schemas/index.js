@@ -14,6 +14,7 @@ module.exports = buildSchema(`
     User: User
     signature: String
     date: Int
+    morningOrAfternoon: String
   }
 
   input UserInput {

@@ -3,8 +3,6 @@ import React from "react";
 import Td from "./Td";
 
 function Tr({ uuid, firstName, lastName, days }) {
-  console.log(days);
-
   return (
     <tr key={uuid}>
       <td className="bg-info">

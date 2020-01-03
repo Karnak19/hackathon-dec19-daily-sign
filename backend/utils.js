@@ -9,15 +9,14 @@ module.exports.pad = (num, size) => {
   return s;
 };
 
-const hours = new Date().getHours();
-const isMorning = () => {
+const isMorning = hours => {
   if (hours > 6 && hours <= 13) {
     return true;
   }
   return false;
 };
 
-const isAfternoon = () => {
+const isAfternoon = hours => {
   if (hours > 13 && hours <= 18) {
     return true;
   }
@@ -25,5 +24,6 @@ const isAfternoon = () => {
 };
 
 module.exports.morningOrAfternoon = () => {
-  return isMorning() ? "morning" : isAfternoon() ? "afternoon" : null;
+  const currentHour = new Date().getHours();
+  return isMorning(currentHour) ? "morning" : isAfternoon(currentHour) ? "afternoon" : null;
 };

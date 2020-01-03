@@ -59,10 +59,10 @@ function WeeklyPlanning() {
                 finalObject.days[dates[i].day] = {};
               }
               if (user.Signs[j].morningOrAfternoon === "morning") {
-                finalObject.days[dates[i].day].morning = user.Signs[j]; // If it match, we add a new key with the sign object
+                finalObject.days[dates[i].day].morning = user.Signs[j]; // Check if the user has signed morning or afternoon
               }
               if (user.Signs[j].morningOrAfternoon === "afternoon") {
-                finalObject.days[dates[i].day].afternoon = user.Signs[j]; // If it match, we add a new key with the sign object
+                finalObject.days[dates[i].day].afternoon = user.Signs[j]; // Check if the user has signed morning or afternoon
               }
             } else {
               // If it don't match, we check if the key already exist, if not, we create it with with a null value

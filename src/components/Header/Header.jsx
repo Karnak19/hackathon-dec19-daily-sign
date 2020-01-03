@@ -10,7 +10,7 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { NavLink as Link, useHistory } from "react-router-dom";
 
 import logo from "../../images/logo-wcs.png";
 import style from "./header.module.scss";
@@ -28,7 +28,7 @@ function Header({ isAuth, dispatch, uuid = "" }) {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar color="primary" light expand="md">
+    <Navbar color="primary" dark expand="md">
       <NavbarBrand onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
         <img className={style.logo} src={logo} alt="wcs"></img>
       </NavbarBrand>
@@ -40,7 +40,7 @@ function Header({ isAuth, dispatch, uuid = "" }) {
             .map(route => {
               return (
                 <NavItem key={route.id}>
-                  <NavLink tag={Link} to={route.url}>
+                  <NavLink tag={Link} to={route.url} activeStyle={{ color: "#ed6c6d" }}>
                     {route.label}
                   </NavLink>
                 </NavItem>

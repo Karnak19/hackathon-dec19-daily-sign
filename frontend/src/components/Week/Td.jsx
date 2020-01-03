@@ -12,20 +12,18 @@ function Td({ data }) {
             <img src={value.morning.signature} alt="" className="img-fluid" />
           </td>
         ) : (
-          <td
-            className={key < today() ? "bg-danger" : "bg-warning"}
-            style={{ minWidth: "100px" }}
-          ></td>
+          <td className={key < today() ? "bg-danger" : "bg-warning"} style={{ minWidth: "100px" }}>
+            {key < today() ? "Absent" : "Doit signer"}
+          </td>
         )}
         {value.afternoon ? (
           <td className="bg-success">
             <img src={value.afternoon.signature} alt="" className="img-fluid" />
           </td>
         ) : (
-          <td
-            className={key < today() ? "bg-danger" : "bg-warning"}
-            style={{ minWidth: "100px" }}
-          ></td>
+          <td className={key < today() ? "bg-danger" : "bg-warning"} style={{ minWidth: "100px" }}>
+            {key < today() ? "Absent" : "Doit signer"}
+          </td>
         )}
       </>
     );

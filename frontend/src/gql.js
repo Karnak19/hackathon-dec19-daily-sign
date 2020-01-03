@@ -53,6 +53,7 @@ export const FETCH_USER_WEEKLY = gql`
       uuid
       firstName
       lastName
+      avatar
       Signs {
         uuid
         date

@@ -3,10 +3,11 @@ import { Table } from "reactstrap";
 import moment from "moment";
 
 import Tr from "./Tr";
+import styles from "./table.module.scss";
 
 function UsersTable({ dates, users }) {
   return (
-    <Table striped hover bordered size="sm">
+    <Table striped hover bordered size="sm" className={styles.table}>
       <thead>
         <tr>
           <td rowSpan={2}>Name</td>

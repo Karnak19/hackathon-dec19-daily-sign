@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const moment = require("moment");
+import Sequelize from "sequelize";
+import moment from "moment";
 
-const { pad, morningOrAfternoon } = require("../utils");
-const db = require("../sequelize");
+import { pad, morningOrAfternoon } from "../utils.js";
+import db from "../sequelize/index.js";
 
 const Sign = db.define(
   "Sign",
@@ -39,4 +39,4 @@ const Sign = db.define(
   }
 );
 
-module.exports = Sign;
+export default Sign;

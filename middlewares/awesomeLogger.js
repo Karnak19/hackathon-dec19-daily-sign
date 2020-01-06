@@ -1,4 +1,5 @@
-const chalk = require("chalk");
+import chalk from "chalk";
+
 const green = chalk.bold.green;
 const red = chalk.bold.red;
 const white = chalk.bold.white;
@@ -32,4 +33,4 @@ const awesomeLogger = (req, res, next) => {
   next();
 };
 
-module.exports = awesomeLogger;
+export default awesomeLogger;

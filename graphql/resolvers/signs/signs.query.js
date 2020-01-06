@@ -1,7 +1,7 @@
-const Sign = require("../../../models/sign");
-const User = require("../../../models/user");
+import Sign from "../../../models/sign.js";
+import User from "../../../models/user.js";
 
-module.exports = {
+export default {
   signs: async () => {
     try {
       const signs = await Sign.findAll({ include: [{ model: User }] });

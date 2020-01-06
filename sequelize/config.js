@@ -1,4 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const host = process.env.DB_HOST;
 const username = process.env.DB_USER;
@@ -19,4 +20,4 @@ const conf = {
   logging: false
 };
 
-module.exports = conf;
+export default conf;

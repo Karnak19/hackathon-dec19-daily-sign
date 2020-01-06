@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
-const config = require("./config");
+import config from "./config.js";
 
-module.exports = new Sequelize(config);
+export default new Sequelize(config);

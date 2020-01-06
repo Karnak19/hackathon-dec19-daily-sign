@@ -1,10 +1,10 @@
-const Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 const Op = Sequelize.Op;
 
-const User = require("../../../models/user");
-const Sign = require("../../../models/sign");
+import User from "../../../models/user.js";
+import Sign from "../../../models/sign.js";
 
-module.exports = {
+export default {
   users: async () => {
     try {
       const users = await User.findAll({

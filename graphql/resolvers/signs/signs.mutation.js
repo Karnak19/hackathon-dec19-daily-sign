@@ -1,9 +1,9 @@
-const moment = require("moment");
+import moment from "moment";
 
-const { pad, morningOrAfternoon } = require("../../../utils");
-const Sign = require("../../../models/sign");
+import { pad, morningOrAfternoon } from "../../../utils.js";
+import Sign from "../../../models/sign.js";
 
-module.exports = {
+export default {
   createSign: async ({ userId, signature }) => {
     try {
       const [sign, created] = await Sign.findOrCreate({

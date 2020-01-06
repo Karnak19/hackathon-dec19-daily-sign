@@ -1,4 +1,4 @@
-module.exports.pad = (num, size) => {
+export const pad = (num, size) => {
   let s = String(num);
   if (s.length === 3) {
     return s;
@@ -23,7 +23,7 @@ const isAfternoon = hours => {
   return false;
 };
 
-module.exports.morningOrAfternoon = () => {
+export const morningOrAfternoon = () => {
   const currentHour = new Date().getHours();
   return isMorning(currentHour) ? "morning" : isAfternoon(currentHour) ? "afternoon" : null;
 };

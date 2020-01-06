@@ -1,25 +1,32 @@
-require("dotenv").config();
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import cors from "cors";
+import graphqlHttp from "express-graphql";
+import passport from "passport";
+import chalk from "chalk";
+
+import logger from "./middlewares/awesomeLogger.js";
+import sequelize from "./sequelize/index.js";
+import graphQlSchemas from "./graphql/schemas/index.js";
+import graphQlResolvers from "./graphql/resolvers/index.js";
+import "./sequelize/associations.js";
+import "./passport.js";
+
 const app = express();
-const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const graphqlHttp = require("express-graphql");
-const sequelize = require("./sequelize");
-require("./sequelize/associations");
-const passport = require("passport");
+
 // Console Logging
-const chalk = require("chalk");
 const error = chalk.bold.red;
 const success = chalk.bold.green;
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(require("./middlewares/awesomeLogger"));
+app.use(logger);
 
 // GraphQL
-const graphQlSchemas = require("./graphql/schemas");
-const graphQlResolvers = require("./graphql/resolvers");
 app.use(
   "/graphql",
   graphqlHttp({
@@ -30,12 +37,8 @@ app.use(
 );
 
 app.use(passport.initialize());
-require("./passport");
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get(
   "/auth/google/callback",
@@ -48,10 +51,7 @@ app.get(
 
 async function main() {
   try {
-    const main = await Promise.all([
-      sequelize.sync(),
-      sequelize.authenticate()
-    ]);
+    const main = await Promise.all([sequelize.sync(), sequelize.authenticate()]);
 
     return main;
   } catch (err) {

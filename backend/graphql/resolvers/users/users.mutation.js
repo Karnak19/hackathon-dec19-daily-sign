@@ -1,9 +1,9 @@
-const Sequelize = require("sequelize");
+import Sequelize from "sequelize";
 
-const User = require("../../../models/user");
-const Sign = require("../../../models/sign");
+import User from "../../../models/user.js";
+import Sign from "../../../models/sign.js";
 
-module.exports = {
+export default {
   createUser: async ({ input }) => {
     try {
       const user = await User.create({ ...input });

@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">= 13.0"
+  },
+  "engineStrict": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node index.js && echo \"If you are in dev env, use npm run dev instead\"",

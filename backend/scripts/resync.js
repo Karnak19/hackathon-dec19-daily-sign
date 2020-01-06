@@ -1,7 +1,7 @@
-const sequelize = require("../sequelize");
-require("../models/user");
-require("../models/sign");
-require("../sequelize/associations");
+import sequelize from "../sequelize";
+import "../models/user";
+import "../models/sign";
+import "../sequelize/associations";
 
 (async () => {
   await sequelize.sync({ force: true });

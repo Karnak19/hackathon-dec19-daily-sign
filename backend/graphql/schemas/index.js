@@ -1,6 +1,6 @@
-const { buildSchema } = require("graphql");
+import graphql from "graphql";
 
-module.exports = buildSchema(`
+export default graphql.buildSchema(`
   type User {
     uuid: String!
     email: String!

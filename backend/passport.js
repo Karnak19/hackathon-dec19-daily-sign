@@ -1,11 +1,14 @@
-require("dotenv").config();
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const jwt = require("jsonwebtoken");
+import dotenv from "dotenv";
+dotenv.config();
 
+import passport from "passport";
+import google from "passport-google-oauth";
+import jwt from "jsonwebtoken";
+
+import User from "./models/user.js";
+
+const GoogleStrategy = google.OAuth2Strategy;
 const secret = process.env.SECRET;
-const User = require("./models/user");
-
 const credentials = {
   google: {
     clientID: process.env.GOOGLE_ID,

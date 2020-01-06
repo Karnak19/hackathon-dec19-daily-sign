@@ -1,7 +1,7 @@
-const queries = require("./signs.query");
-const mutations = require("./signs.mutation");
+import queries from "./signs.query.js";
+import mutations from "./signs.mutation.js";
 
-module.exports = {
+export default {
   ...queries,
   ...mutations
 };

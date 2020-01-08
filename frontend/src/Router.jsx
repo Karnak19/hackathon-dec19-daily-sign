@@ -59,10 +59,7 @@ function Router({ isAuthFromStore }) {
                     <Route exact path="/" component={Home} />
                     <Route path="/login" component={Login} />
                     {componentRoute}
-                    {/* 
-                    <AuthRoute isAuth={isAuthFromStore} path="/sign" component={Sign} />
-                    <AuthRoute isAuth={isAuthFromStore} path="/profile" component={Profile} />
-                    <AuthRoute isAuth={isAuthFromStore} path="/weekly" component={WeeklyPlanning} /> */}
+                    <Route exact path="*" component={Login} />
                   </Switch>
                 </Container>
               </CSSTransition>

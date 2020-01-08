@@ -1,92 +1,87 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Spinner } from "reactstrap";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { Row, Col, Spinner, Button } from "reactstrap";
+import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
 import { monday, sunday, pad } from "../../utils";
 import { FETCH_USER_WEEKLY } from "../../gql";
 import UsersTable from "./UsersTable";
+import useWeek from "../../hooks/useWeeks";
 
 function WeeklyPlanning() {
-  const [dates, setDates] = useState([]);
   const [users, setUsers] = useState([]); // We manipulate datas from GraphQL query and store them here
-  const [getUsers, { data, loading }] = useLazyQuery(FETCH_USER_WEEKLY);
-
-  useEffect(() => {
-    const dateArray = [];
-    for (let i = 1; i < 6; i++) {
-      dateArray[i - 1] = {
-        date: moment()
-          .day(i)
-          .toDate(),
-        day: parseInt(
-          `${moment()
-            .day(i)
-            .year()}${pad(
-            moment()
-              .day(i)
-              .dayOfYear()
-          )}`,
-          10
-        )
-      };
+  const { week, decrementWeek, incrementWeek, startOfWeek, endOfWeek } = useWeek();
+  const { loading, error, data, refetch } = useQuery(FETCH_USER_WEEKLY, {
+    variables: {
+      start: startOfWeek ? startOfWeek : monday,
+      end: endOfWeek ? endOfWeek : sunday
     }
-    setDates(dateArray);
-    // eslint-disable-next-line
-  }, []);
+  });
 
-  // TODO: Find why it doesn't works on every page changes except the first
   useEffect(() => {
-    getUsers({
-      variables: {
-        start: monday,
-        end: sunday
-      }
-    });
-    if (data) {
-      const finalUsers = data.signsUsersWeekly.map(user => {
-        let finalObject = {
-          ...user,
-          days: {}
-        };
+    const fetch = async () => {
+      const { data } = await refetch();
 
-        // Going through all days this week
-        for (let i = 0; i < dates.length; i++) {
-          // Going through all signs for an user
-          for (let j = 0; j < user.Signs.length; j++) {
-            if (user.Signs[j].date === dates[i].day) {
-              if (!finalObject.days.hasOwnProperty(dates[i].day)) {
-                finalObject.days[dates[i].day] = {};
-              }
-              if (user.Signs[j].morningOrAfternoon === "morning") {
-                finalObject.days[dates[i].day].morning = user.Signs[j]; // Check if the user has signed morning or afternoon
-              }
-              if (user.Signs[j].morningOrAfternoon === "afternoon") {
-                finalObject.days[dates[i].day].afternoon = user.Signs[j]; // Check if the user has signed morning or afternoon
-              }
-            } else {
-              // If it don't match, we check if the key already exist, if not, we create it with with a null value
-              if (!finalObject.days.hasOwnProperty(dates[i].day)) {
-                finalObject.days[dates[i].day] = {};
+      if (data) {
+        const finalUsers = data.signsUsersWeekly.map(user => {
+          let finalObject = {
+            ...user,
+            days: {}
+          };
+
+          // Going through all days this week
+          for (let i = 0; i < week.length; i++) {
+            // Going through all signs for an user
+            for (let j = 0; j < user.Signs.length; j++) {
+              if (user.Signs[j].date === week[i].day) {
+                if (!finalObject.days.hasOwnProperty(week[i].day)) {
+                  finalObject.days[week[i].day] = {};
+                }
+                if (user.Signs[j].morningOrAfternoon === "morning") {
+                  finalObject.days[week[i].day].morning = user.Signs[j]; // Check if the user has signed morning or afternoon
+                }
+                if (user.Signs[j].morningOrAfternoon === "afternoon") {
+                  finalObject.days[week[i].day].afternoon = user.Signs[j]; // Check if the user has signed morning or afternoon
+                }
+              } else {
+                // If it don't match, we check if the key already exist, if not, we create it with with a null value
+                if (!finalObject.days.hasOwnProperty(week[i].day)) {
+                  finalObject.days[week[i].day] = {};
+                }
               }
             }
           }
-        }
-        return finalObject;
-      });
+          return finalObject;
+        });
 
-      setUsers(finalUsers);
-    }
+        setUsers(finalUsers);
+      }
+    };
+    fetch();
     // eslint-disable-next-line
-  }, [data]);
+  }, [week]);
+
+  if (loading) return <Spinner />;
+  if (error) return <>Error !</>;
 
   return (
-    <Row>
-      <Col xs={{ size: 12 }}>
-        {loading && <Spinner />}
-        {users && <UsersTable dates={dates} users={users} />}
-      </Col>
-    </Row>
+    <>
+      <Row className="mb-5">
+        <Col xs={{ offset: 1, size: 4 }}>
+          <Button block color="info" onClick={decrementWeek}>
+            Back
+          </Button>
+        </Col>
+        <Col xs={{ offset: 2, size: 4 }}>
+          <Button block color="info" onClick={incrementWeek}>
+            Next
+          </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={{ size: 12 }}>{users && <UsersTable dates={week} users={users} />}</Col>
+      </Row>
+    </>
   );
 }
 

@@ -45,8 +45,6 @@ passport.use(
       }
     });
 
-    console.log(createdUser.dataValues);
-
     userData.id = createdUser.uuid;
     userData.jwt = jwt.sign({ email: userData.email }, secret, {
       expiresIn: "1h"

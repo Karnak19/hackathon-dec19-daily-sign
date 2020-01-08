@@ -21,19 +21,19 @@ function UsersTable({ dates, users }) {
         </tr>
         <tr>
           {/* <td></td> */}
-          {dates.map(() => {
+          {dates.map((_, i) => {
             return (
-              <>
+              <React.Fragment key={i}>
                 <td>Morning</td>
                 <td>Afternoom</td>
-              </>
+              </React.Fragment>
             );
           })}
         </tr>
       </thead>
       <tbody>
         {users.map(user => {
-          return <Tr {...user} />;
+          return <Tr {...user} key={user.uuid} />;
         })}
       </tbody>
     </Table>

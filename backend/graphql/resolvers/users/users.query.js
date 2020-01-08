@@ -30,12 +30,12 @@ export default {
       const users = await User.findAll({
         include: [
           {
-            model: Sign,
-            where: {
-              date: {
-                [Op.between]: [start, end]
-              }
-            }
+            model: Sign
+            // where: {
+            //   date: {
+            //     [Op.between]: [start, end]
+            //   }
+            // }
           }
         ]
       });

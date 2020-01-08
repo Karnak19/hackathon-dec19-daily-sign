@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import moment from "moment";
 
 const green = chalk.bold.green;
 const red = chalk.bold.red;
@@ -6,13 +7,14 @@ const white = chalk.bold.white;
 
 const awesomeLogger = (req, res, next) => {
   const now = Date.now();
-  const humanNow = Date(now).toLocaleString();
+  const humanNow = moment(now).format("LTS");
   const method = req.method;
   const path = req.originalUrl;
+  const { query, operationName, variables } = req.body;
   res.on("finish", function() {
     const code = this.statusCode;
     const time = Date.now() - now;
-    let logMessage = `${method} ${path} ${code}`;
+    let logMessage = `${method} ${path} ${operationName && operationName} ${code}`;
 
     switch (code) {
       case 200:

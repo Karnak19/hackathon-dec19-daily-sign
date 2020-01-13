@@ -25,4 +25,4 @@ yarn-error.log*
 backend/Dockerfile
 frontend/Dockerfile
 
-src/env.js
+.env

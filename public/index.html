@@ -10,34 +10,65 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>Daily Sign</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <button class="add-button">Add to home screen</button>
+    <script>
+      if ("serviceWorker" in navigator) {
+        let deferredPrompt;
+        const addBtn = document.querySelector(".add-button");
+        addBtn.style.display = "none";
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        window.addEventListener("beforeinstallprompt", e => {
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          deferredPrompt = e;
+          // Update UI to notify the user they can add to home screen
+          addBtn.style.display = "block";
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+          addBtn.addEventListener("click", e => {
+            // hide our user interface that shows our A2HS button
+            addBtn.style.display = "none";
+            // Show the prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then(choiceResult => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("User accepted the A2HS prompt");
+              } else {
+                console.log("User dismissed the A2HS prompt");
+              }
+              deferredPrompt = null;
+            });
+          });
+        });
+
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("worker.js")
+            .then(
+              registration => {
+                console.log(
+                  "Worker registration successful",
+                  registration.scope
+                );
+              },
+              err => {
+                console.log("Worker registration failed", err);
+              }
+            )
+            .catch(err => console.log(err));
+        });
+      } else {
+        console.log("Service Worker is not supported by browser.");
+      }
+    </script>
   </body>
 </html>
